@@ -45,6 +45,7 @@ LOCAL_SHARED_LIBRARIES += \
 else
 LOCAL_CFLAGS += -DNO_OPENCORE
 endif
+LOCAL_CFLAGS += -fno-strict-aliasing
 
 ifneq ($(TARGET_SIMULATOR),true)
 LOCAL_SHARED_LIBRARIES += libdl

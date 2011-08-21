@@ -51,7 +51,7 @@ LOCAL_C_INCLUDES += \
 	frameworks/base/media/libstagefright/codecs/amrnb/dec/include \
 	frameworks/base/media/libstagefright/codecs/amrnb/dec/src
 
-LOCAL_CFLAGS += -fvisibility=hidden
+LOCAL_CFLAGS += -fvisibility=hidden -fno-strict-aliasing
 
 LOCAL_PRELINK_MODULE := false
 

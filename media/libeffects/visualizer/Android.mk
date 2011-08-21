@@ -6,7 +6,7 @@ include $(CLEAR_VARS)
 LOCAL_SRC_FILES:= \
 	EffectVisualizer.cpp
 
-LOCAL_CFLAGS+= -O2
+LOCAL_CFLAGS+= -O2 -fno-strict-aliasing
 
 LOCAL_SHARED_LIBRARIES := \
 	libcutils

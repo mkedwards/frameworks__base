@@ -57,7 +57,7 @@ LOCAL_SRC_FILES:= $(commonSources)
 
 LOCAL_MODULE:= libutils
 
-LOCAL_CFLAGS += -DLIBUTILS_NATIVE=1 $(TOOL_CFLAGS)
+LOCAL_CFLAGS += -DLIBUTILS_NATIVE=1 $(TOOL_CFLAGS) -fno-strict-aliasing
 LOCAL_C_INCLUDES += external/zlib
 
 ifeq ($(HOST_OS),windows)
@@ -97,7 +97,7 @@ LOCAL_C_INCLUDES += \
 		external/icu4c/common
 
 LOCAL_LDLIBS += -lpthread
-
+LOCAL_CFLAGS += -fno-strict-aliasing
 LOCAL_SHARED_LIBRARIES := \
 	libz \
 	liblog \
@@ -117,6 +117,7 @@ ifneq ($(TARGET_SIMULATOR),true)
 ifeq ($(TARGET_OS),linux)
 include $(CLEAR_VARS)
 LOCAL_C_INCLUDES += external/zlib external/icu4c/common
+LOCAL_CFLAGS += -fno-strict-aliasing
 LOCAL_LDLIBS := -lrt -ldl -lpthread
 LOCAL_MODULE := libutils
 LOCAL_SRC_FILES := $(commonSources) BackupData.cpp BackupHelpers.cpp
