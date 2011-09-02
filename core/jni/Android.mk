@@ -202,6 +202,9 @@ LOCAL_C_INCLUDES += \
 	system/bluetooth/bluez-clean-headers
 LOCAL_CFLAGS += -DHAVE_BLUETOOTH
 LOCAL_SHARED_LIBRARIES += libbluedroid libdbus
+#[-fpermissive] flag has been added as a workaround to overcome compilation errors from bluetooth
+#related files. TODO The flag should be removed and fixed in the code
+LOCAL_CFLAGS += -fpermissive
 endif
 
 ifneq ($(TARGET_SIMULATOR),true)
