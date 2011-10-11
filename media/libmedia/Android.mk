@@ -39,6 +39,8 @@ LOCAL_SHARED_LIBRARIES := \
 
 LOCAL_MODULE:= libmedia
 
+LOCAL_CFLAGS += -fno-strict-aliasing
+
 ifeq ($(TARGET_OS)-$(TARGET_SIMULATOR),linux-true)
 LOCAL_LDLIBS += -ldl -lpthread
 endif

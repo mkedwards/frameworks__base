@@ -66,6 +66,7 @@ LOCAL_SRC_FILES:= \
 	android_net_NetUtils.cpp \
 	android_net_TrafficStats.cpp \
 	android_net_wifi_Wifi.cpp \
+	android_net_ethernet.cpp \
 	android_nio_utils.cpp \
 	android_nfc_NdefMessage.cpp \
 	android_nfc_NdefRecord.cpp \
@@ -231,6 +232,9 @@ LOCAL_C_INCLUDES += \
 	system/bluetooth/bluez-clean-headers
 LOCAL_CFLAGS += -DHAVE_BLUETOOTH
 LOCAL_SHARED_LIBRARIES += libbluedroid libdbus
+#[-fpermissive] flag has been added as a workaround to overcome compilation errors from bluetooth
+#related files. TODO The flag should be removed and fixed in the code
+LOCAL_CFLAGS += -fpermissive
 endif
 
 ifneq ($(TARGET_SIMULATOR),true)
