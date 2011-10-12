@@ -76,8 +76,6 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Custom implementation of Context/Activity to handle non compiled resources.
@@ -509,12 +507,11 @@ public final class BridgeContext extends Activity {
             return null;
         }
 
-        AtomicBoolean frameworkAttributes = new AtomicBoolean();
-        AtomicReference<String> attrName = new AtomicReference<String>();
-        TreeMap<Integer, String> styleNameMap = searchAttrs(attrs, frameworkAttributes, attrName);
+        boolean[] frameworkAttributes = new boolean[1];
+        TreeMap<Integer, String> styleNameMap = searchAttrs(attrs, frameworkAttributes);
 
         BridgeTypedArray ta = ((BridgeResources) mSystemResources).newTypeArray(attrs.length,
-                isPlatformFile, frameworkAttributes.get(), attrName.get());
+                isPlatformFile);
 
         // look for a custom style.
         String customStyle = null;
@@ -605,7 +602,7 @@ public final class BridgeContext extends Activity {
         }
 
         String namespace = BridgeConstants.NS_RESOURCES;
-        if (frameworkAttributes.get() == false) {
+        if (frameworkAttributes[0] == false) {
             // need to use the application namespace
             namespace = mProjectCallback.getNamespace();
         }
@@ -682,12 +679,10 @@ public final class BridgeContext extends Activity {
      */
     private BridgeTypedArray createStyleBasedTypedArray(StyleResourceValue style, int[] attrs)
             throws Resources.NotFoundException {
-        AtomicBoolean frameworkAttributes = new AtomicBoolean();
-        AtomicReference<String> attrName = new AtomicReference<String>();
-        TreeMap<Integer, String> styleNameMap = searchAttrs(attrs, frameworkAttributes, attrName);
+        TreeMap<Integer, String> styleNameMap = searchAttrs(attrs, null);
 
         BridgeTypedArray ta = ((BridgeResources) mSystemResources).newTypeArray(attrs.length,
-                style.isFramework(), frameworkAttributes.get(), attrName.get());
+                false /* platformResourceFlag */);
 
         // loop through all the values in the style map, and init the TypedArray with
         // the style we got from the dynamic id
@@ -719,13 +714,10 @@ public final class BridgeContext extends Activity {
      * that is used to reference the attribute later in the TypedArray.
      *
      * @param attrs An attribute array reference given to obtainStyledAttributes.
-     * @param outFrameworkFlag out value indicating if the attr array is a framework value
-     * @param outAttrName out value for the resolved attr name.
      * @return A sorted map Attribute-Value to Attribute-Name for all attributes declared by the
      *         attribute array. Returns null if nothing is found.
      */
-    private TreeMap<Integer,String> searchAttrs(int[] attrs, AtomicBoolean outFrameworkFlag,
-            AtomicReference<String> outAttrName) {
+    private TreeMap<Integer,String> searchAttrs(int[] attrs, boolean[] outFrameworkFlag) {
         // get the name of the array from the framework resources
         String arrayName = Bridge.resolveResourceId(attrs);
         if (arrayName != null) {
@@ -742,10 +734,7 @@ public final class BridgeContext extends Activity {
             }
 
             if (outFrameworkFlag != null) {
-                outFrameworkFlag.set(true);
-            }
-            if (outAttrName != null) {
-                outAttrName.set(arrayName);
+                outFrameworkFlag[0] = true;
             }
 
             return attributes;
@@ -767,10 +756,7 @@ public final class BridgeContext extends Activity {
             }
 
             if (outFrameworkFlag != null) {
-                outFrameworkFlag.set(false);
-            }
-            if (outAttrName != null) {
-                outAttrName.set(arrayName);
+                outFrameworkFlag[0] = false;
             }
 
             return attributes;
