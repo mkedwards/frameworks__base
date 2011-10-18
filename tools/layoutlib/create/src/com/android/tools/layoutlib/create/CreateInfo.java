@@ -166,7 +166,6 @@ public final class CreateInfo implements ICreateInfo {
             "android.os.ServiceManager",            "android.os._Original_ServiceManager",
             "android.view.SurfaceView",             "android.view._Original_SurfaceView",
             "android.view.accessibility.AccessibilityManager", "android.view.accessibility._Original_AccessibilityManager",
-            "android.webkit.WebView",               "android.webkit._Original_WebView",
         };
 
     /**

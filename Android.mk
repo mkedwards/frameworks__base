@@ -36,7 +36,6 @@ LOCAL_SRC_FILES := $(call find-other-java-files,$(FRAMEWORKS_BASE_SUBDIRS))
 # EventLogTags files.
 LOCAL_SRC_FILES += \
        core/java/android/content/EventLogTags.logtags \
-       core/java/android/webkit/EventLogTags.logtags \
        telephony/java/com/android/internal/telephony/EventLogTags.logtags \
 
 # The following filters out code we are temporarily not including at all.
@@ -516,7 +515,7 @@ include $(BUILD_DROIDDOC)
 # $(gen), i.e. framework.aidl, is also needed while building against the current stub.
 $(full_target): $(framework_built) $(gen)
 
-droidcore: doc-comment-check-docs
+droidcore: # doc-comment-check-docs
 
 # ====  static html in the sdk ==================================
 include $(CLEAR_VARS)

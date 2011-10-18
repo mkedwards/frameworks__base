@@ -23,7 +23,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.util.Patterns;
-import android.webkit.WebView;
 import android.widget.TextView;
 
 
@@ -444,37 +443,6 @@ public class Linkify {
     }
 
     private static final void gatherMapLinks(ArrayList<LinkSpec> links, Spannable s) {
-        String string = s.toString();
-        String address;
-        int base = 0;
-
-        while ((address = WebView.findAddress(string)) != null) {
-            int start = string.indexOf(address);
-
-            if (start < 0) {
-                break;
-            }
-
-            LinkSpec spec = new LinkSpec();
-            int length = address.length();
-            int end = start + length;
-            
-            spec.start = base + start;
-            spec.end = base + end;
-            string = string.substring(end);
-            base += end;
-
-            String encodedAddress = null;
-
-            try {
-                encodedAddress = URLEncoder.encode(address,"UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                continue;
-            }
-
-            spec.url = "geo:0,0?q=" + encodedAddress;
-            links.add(spec);
-        }
     }
 
     private static final void pruneOverlaps(ArrayList<LinkSpec> links) {

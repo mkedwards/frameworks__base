@@ -26,7 +26,6 @@ import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.webkit.WebIconDatabase;
 
 import java.util.Date;
 
@@ -467,7 +466,6 @@ public class Browser {
                 null,
                 null);
             if (c.moveToFirst()) {
-                final WebIconDatabase iconDb = WebIconDatabase.getInstance();
                 /* Delete favicons, and revert bookmarks which have been visited
                  * to simply bookmarks.
                  */
@@ -486,8 +484,6 @@ public class Browser {
                         sb.append("( _id = ");
                         sb.append(c.getInt(0));
                         sb.append(" )");
-                    } else {
-                        iconDb.releaseIconForPageUrl(url);
                     }
                 } while (c.moveToNext());
 
@@ -602,23 +598,6 @@ public class Browser {
         }
     }
     
-    /**
-     *  Request all icons from the database.  This call must either be called
-     *  in the main thread or have had Looper.prepare() invoked in the calling
-     *  thread.
-     *  Requires {@link android.Manifest.permission#READ_HISTORY_BOOKMARKS}
-     *  @param  cr The ContentResolver used to access the database.
-     *  @param  where Clause to be used to limit the query from the database.
-     *          Must be an allowable string to be passed into a database query.
-     *  @param  listener IconListener that gets the icons once they are 
-     *          retrieved.
-     */
-    public static final void requestAllIcons(ContentResolver cr, String where,
-            WebIconDatabase.IconListener listener) {
-        WebIconDatabase.getInstance()
-                .bulkRequestIconForPageUrl(cr, where, listener);
-    }
-
     public static class BookmarkColumns implements BaseColumns {
         public static final String URL = "url";
         public static final String VISITS = "visits";

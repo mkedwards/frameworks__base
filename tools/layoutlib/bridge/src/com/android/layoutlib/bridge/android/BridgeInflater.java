@@ -54,7 +54,6 @@ public final class BridgeInflater extends LayoutInflater {
      */
     private static final String[] sClassPrefixList = {
         "android.widget.",
-        "android.webkit."
     };
 
     protected BridgeInflater(LayoutInflater original, Context newContext) {

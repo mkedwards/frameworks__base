@@ -26,7 +26,6 @@ import android.view.LayoutInflater;
 public class PhoneLayoutInflater extends LayoutInflater {
     private static final String[] sClassPrefixList = {
         "android.widget.",
-        "android.webkit."
     };
     
     /**

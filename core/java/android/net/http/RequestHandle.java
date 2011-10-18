@@ -20,7 +20,6 @@ import android.net.ParseException;
 import android.net.WebAddress;
 import android.security.Md5MessageDigest;
 import junit.framework.Assert;
-import android.webkit.CookieManager;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -178,13 +177,6 @@ public class RequestHandle {
             mUri = new WebAddress(mUrl);
         } catch (ParseException e) {
             e.printStackTrace();
-        }
-
-        // update the "Cookie" header based on the redirected url
-        mHeaders.remove("Cookie");
-        String cookie = CookieManager.getInstance().getCookie(mUri);
-        if (cookie != null && cookie.length() > 0) {
-            mHeaders.put("Cookie", cookie);
         }
 
         if ((statusCode == 302 || statusCode == 303) && mMethod.equals("POST")) {
